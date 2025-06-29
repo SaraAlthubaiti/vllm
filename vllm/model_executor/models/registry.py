@@ -26,6 +26,7 @@ from .interfaces import (has_inner_state, has_noops, is_attention_free,
                          supports_multimodal, supports_pp,
                          supports_transcription, supports_v0_only)
 from .interfaces_base import is_text_generation_model
+from vllm.model_executor.models.beats import BeatsEncoderWrapper
 
 logger = init_logger(__name__)
 
@@ -123,6 +124,8 @@ _TEXT_GENERATION_MODELS = {
     "BartModel": ("bart", "BartForConditionalGeneration"),
     "BartForConditionalGeneration": ("bart", "BartForConditionalGeneration"),
 }
+
+
 
 _EMBEDDING_MODELS = {
     # [Text-only]
@@ -242,6 +245,12 @@ _TRANSFORMERS_MODELS = {
 }
 # yapf: enable
 
+# Custom audio encoder for BEATs
+_CUSTOM_AUDIO_MODELS = {
+    "BeatsEncoderWrapper": ("vllm.vllm.model_executor.models.beats", "BeatsEncoderWrapper"),
+}
+
+
 _VLLM_MODELS = {
     **_TEXT_GENERATION_MODELS,
     **_EMBEDDING_MODELS,
@@ -249,7 +258,10 @@ _VLLM_MODELS = {
     **_MULTIMODAL_MODELS,
     **_SPECULATIVE_DECODING_MODELS,
     **_TRANSFORMERS_MODELS,
+    **_CUSTOM_AUDIO_MODELS,
 }
+
+
 
 # This variable is used as the args for subprocess.run(). We
 # can modify  this variable to alter the args if needed. e.g.
